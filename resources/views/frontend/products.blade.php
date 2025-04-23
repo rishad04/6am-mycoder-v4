@@ -5,8 +5,8 @@
     <div class="page-title light-background">
         <div class="container d-lg-flex justify-content-between align-items-center">
             <div>
-                <p class="mb-2 mb-lg-0"> Backend to Frontend Page Loading Time: <span id="loading-time"></span></p>
-                <p class="mb-2 mb-lg-0"> Controller Loading Time: {{ $backend_loading_time }}</p>
+                {{-- <p class="mb-2 mb-lg-0"> Backend to Frontend Page Loading Time: <span id="loading-time"></span></p> --}}
+                <p class="mb-2 mb-lg-0"> Before Caching Time measurements in my code: {{ $backend_loading_time }}</p>
 
             </div>
             <h1 class="mb-2 mb-lg-0">
