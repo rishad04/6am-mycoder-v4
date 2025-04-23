@@ -49,7 +49,8 @@
         <div class="page-wrapper">
 
             <h1 class="card-title">Hello! How's Your Day ?</h1>
-            <h3 class="card-title">Login Status</h3>
+            <h3 class="card-title">Backend Admin Panel Url - /admin/dashboard (After Login)</h3>
+            <h3 class="card-title">Frontend User Panel Url - /frontend/home</h3>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card">
@@ -76,11 +77,11 @@
                             <div class="btn-list">
 
                                 @if (!Auth::user())
-                                    <a class="btn btn-success" href="{{ url('/user/login') }}">Login to Frontend</a>
+                                    <a class="btn btn-success" href="{{ route('frontend.login') }}">Login to Frontend</a>
                                 @else
                                     {{-- <button type="button" class="btn waves-effect waves-light btn-lg btn-primary">Frontend
                                         Logout </button> --}}
-                                    <a class="btn btn-danger" href="{{ url('/user/logout') }}">Logout from Frontend</a>
+                                    <a class="btn btn-danger" href="{{ route('frontend.logout') }}">Logout from Frontend</a>
                                 @endif
 
                                 @if (Auth::guard('web')->user())

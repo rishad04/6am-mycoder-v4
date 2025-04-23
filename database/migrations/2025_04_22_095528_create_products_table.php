@@ -15,18 +15,17 @@ return new class extends Migration
             $table->id();
 
             $table->string('banner')->nullable();
-            $table->integer('product_category_id')->nullable();
-            $table->string('title')->nullable();
-            $table->string('slug')->nullable();
-            $table->integer('price')->nullable();
-            $table->integer('stock_quantity')->nullable();
-            $table->integer('is_popular')->nullable();
+            $table->foreignId('product_category_id')->constrained('product_categories')->onDelete('cascade');
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->decimal('price', 10, 2)->nullable();
+            $table->unsignedInteger('stock_quantity')->nullable();
+            $table->boolean('is_popular')->default(false);
             $table->text('description')->nullable();
             $table->text('short_description')->nullable();
             $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });

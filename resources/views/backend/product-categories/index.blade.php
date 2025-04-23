@@ -22,7 +22,7 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table id="default_order" class="table table-striped table-bordered display no-wrap" style="width:100%">
+                                <table id="" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Serial</th>
@@ -40,7 +40,7 @@
 
                                         @foreach ($data as $row)
                                             <tr>
-                                                <td>{{ $serial }}
+                                                <td>{{ $serial }}</td>
 
                                                 <td>{{ $row->title }}
                                                 </td>
@@ -76,7 +76,7 @@
                                     </tbody>
                                 </table>
 
-                                {{ $data->links() }}
+                                {{ $data->links('pagination::bootstrap-4') }}
 
                             </div>
                         </div>

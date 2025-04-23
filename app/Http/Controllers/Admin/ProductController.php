@@ -35,7 +35,7 @@ class ProductController extends Controller
 
         $data = $data->orderBy('id', 'DESC');
 
-        $data = $data->get();
+        $data = $data->paginate(10);
 
         return view('backend.products.index', compact('page_title', 'data', 'info'))->with($with_data);
     }

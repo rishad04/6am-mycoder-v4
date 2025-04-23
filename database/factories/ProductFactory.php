@@ -22,7 +22,7 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $title = $this->faker->words(2, true);
+        $title = $this->faker->words(4, true);
 
         return [
             'banner'              => 'backend/assets/images/products/sample-' . $this->faker->numberBetween(1, 5) . '.png',

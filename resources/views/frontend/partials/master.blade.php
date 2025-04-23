@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Index - Sailor Bootstrap Template</title>
+    <title>Rishad Task Submission At 6AmTech</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -95,6 +95,13 @@
 
         .mr-5 {
             margin-right: 5px;
+        }
+
+        .float-right {
+            position: absolute;
+            bottom: 32px;
+            right: 10px;
+            padding-bottom: 10px;
         }
     </style>
 

@@ -297,6 +297,23 @@ class PermissionsTableSeeder extends Seeder
                 'guard_name' => 'admin',
             ],
 
+            [
+                'name' => 'task-view',
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'task-create',
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'task-update',
+                'guard_name' => 'admin',
+            ],
+            [
+                'name' => 'task-delete',
+                'guard_name' => 'admin',
+            ],
+
 
             // [
 

@@ -6,8 +6,7 @@
         @if (auth()->user() != '')
             <h2>Welcome, {{ auth()->user()->name }} !</h2>
         @else
-            <h2>Welcome To Landing Page</h2>
-            <p>Hello, From here you can choose subscription plans, and also do login/register</p>
+            {{-- <h2>Welcome To Landing Page</h2> --}}
         @endif
     </section>
     <!-- pricing Section -->
@@ -165,7 +164,7 @@
                 console.log(planId);
                 // Make an AJAX request to fetch the subscription data
                 $.ajax({
-                    url: '/subscription-view/' + planId,
+                    url: '/subscription/view/' + planId,
                     method: 'GET',
                     data: {
                         _token: '{{ csrf_token() }}', // CSRF token for security
@@ -272,55 +271,6 @@
         } else {
             console.log('cookie for frontend is null');
         }
-        // let lastMessage = '';
-
-        // function checkForNotification() {
-        //     fetch('/get-latest-notification')
-        //         .then(res => res.json())
-        //         .then(data => {
-        //             console.log(data);
-
-        //             // Show the SweetAlert
-        //             Swal.fire({
-        //                 title: data.message,
-        //                 text: data.message,
-        //                 icon: 'info',
-        //                 showCancelButton: false, // No need for a cancel button if it's just informational
-        //                 confirmButtonColor: '#d33'
-        //             }).then(() => {
-        //                 // After the Swal popup is closed, make another API call
-        //                 fetch('/get-latest-notification-back-to-set-old')
-        //                     .then(res => res.json())
-        //                     .then(backToSetData => {
-        //                         console.log(backToSetData);
-        //                         // Handle the response after setting the notification as seen
-        //                     })
-        //                     .catch(error => {
-        //                         console.error('Error setting notification as seen:', error);
-        //                     });
-        //             });
-        //         })
-        //         .catch(error => {
-        //             console.error('Error fetching latest notification:', error);
-        //         });
-        // }
-
-
-        // Check every 3 seconds
         setInterval(checkForNotification, 3000);
-
-        // First check on load
-        // checkForNotification();
     </script>
-
-    {{-- <script>
-        SwalFlashNotificationlert(true, ' 🔔 hellow rishad', null, null);
-    </script> --}}
-    {{-- <script>
-        window.Echo.channel('online-users')
-            .listen('.user.registered', (data) => {
-                console.log("New user joined:", data);
-                alert(`${data.name} just joined!`);
-            });
-    </script> --}}
 @endpush

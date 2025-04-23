@@ -42,6 +42,7 @@ class FrontendAuthController extends Controller
                 $user->is_logged_in = true;
                 $user->save();
             }
+
             $cookieValue = '12312kjasdkjasomerandomcodes'; // This should be a secure random value for your app
 
             // Set the cookie. Customize as needed:

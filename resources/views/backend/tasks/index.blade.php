@@ -27,11 +27,10 @@
                                         <tr>
                                             <th>Serial</th>
                                             <th>User Info</th>
-                                            <th>Plan Info</th>
-                                            <th>Subscription Period</th>
-                                            <th>Payment Info</th>
-                                            <th>status</th>
-                                            <th>Subscribe</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Is Completed</th>
+                                            <th>Is Active</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -43,9 +42,7 @@
 
                                         @foreach ($data as $row)
                                             <tr>
-                                                <td>{{ $serial }}
-                                                </td>
-
+                                                <td>{{ $serial }}</td>
                                                 <td>
                                                     <div>
                                                         {{ $row->user?->name }}
@@ -57,62 +54,35 @@
                                                     </div>
                                                 </td>
 
-                                                <td>
-                                                    <div>
-                                                        Title: {{ $row->subscriptionPlan?->title }}
-                                                    </div>
-                                                    <div>
-                                                        <a href="#" class="link-color">
-                                                            Cycle: {{ $row->subscriptionPlan?->billing_cycle }}
-                                                        </a>
-                                                    </div>
+                                                <td>{{ $row->title }}
                                                 </td>
-
-                                                <td>
-
-                                                    <div>Start Date: {{ $row->start_date }}</div>
-                                                    <div>End Date: {{ $row->end_date }}</div>
-
+                                                <td>{{ $row->description }}
                                                 </td>
-
                                                 <td>
-                                                    <div>
-                                                        paid: {{ $row->paid }} Tk
+                                                    <div class="form-check form-switch form-switch-md">
+                                                        <input type="checkbox" name="is_completed" value="{{ $row->id }}"
+                                                            onclick="toggleSwitchStatus(this,'tasks');" class="form-check-input"
+                                                            @if ($row->is_completed == 1) checked @endif>
                                                     </div>
-                                                    <div>
-                                                        <a href="#" class="link-color">
-                                                            Method: {{ $row->payment_method }}
-                                                        </a>
-                                                    </div>
-                                                    <div>
-                                                        <a href="#" class="link-color">
-                                                            Verified : {{ $row->payment_verified == 1 ? 'Yes' : 'No' }}
-                                                        </a>
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    {{ $row->is_active ? 'Subscribed' : 'Unsubscribed' }}
-
                                                 </td>
                                                 <td>
                                                     <div class="form-check form-switch form-switch-md">
                                                         <input type="checkbox" name="is_active" value="{{ $row->id }}"
-                                                            onclick="toggleSwitchStatus(this,'subscription_users');" class="form-check-input"
+                                                            onclick="toggleSwitchStatus(this,'tasks');" class="form-check-input"
                                                             @if ($row->is_active == 1) checked @endif>
                                                     </div>
-
                                                 </td>
                                                 <td>
                                                     <a class="trk-action__item trk-action__item--success"
-                                                        href="{{ route('admin.subscription-users.show', $row->id) }}">
+                                                        href="{{ route('admin.subscription-plans.show', $row->id) }}">
                                                         <i class="lni lni-eye"></i>
                                                     </a>
                                                     <a class="trk-action__item trk-action__item--warning"
-                                                        href="{{ route('admin.subscription-users.edit', $row->id) }}">
+                                                        href="{{ route('admin.subscription-plans.edit', $row->id) }}">
                                                         <i class="lni lni-pencil-alt"></i>
                                                     </a>
-                                                    <a onclick="Delete(`{{ route('admin.subscription-users.destroy', $row->id) }}`)"
+
+                                                    <a onclick="Delete(`{{ route('admin.subscription-plans.destroy', $row->id) }}`)"
                                                         class="trk-action__item trk-action__item--danger" href="#">
                                                         <i class="lni lni-trash-can"></i>
                                                     </a>

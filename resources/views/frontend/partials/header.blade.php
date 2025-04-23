@@ -10,7 +10,7 @@
 
         {{-- <button onclick="showNotification('Welcome! This is a test notification.')">Show Notification</button> --}}
 
-        @if (auth()->user() != '')
+        {{-- @if (auth()->user() != '')
             <button class="btn btn-success" onclick="showNotification('You have a new message!')">Notifications
             </button>
 
@@ -18,7 +18,7 @@
                 <div class="message" id="notifications"></div>
                 <button class="close-btn" onclick="hideNotification()">&times;</button>
             </div>
-        @endif
+        @endif --}}
 
         <nav id="navmenu" class="navmenu" style="margin-right:10px">
             {{-- @dd(request()->url()) --}}
@@ -49,6 +49,13 @@
                             class="{{ request()->is('product-showcase-cached*') ? 'active' : '' }}">
                             Products(Cached)
                         </a>
+                    </li>
+                @endif
+
+                @if (auth()->user() != '')
+                    <li>
+                        <a href="{{ route('frontend.my-tasks.index') }}" class="{{ request()->is('my-task*') ? 'active' : '' }}">My
+                            Tasks</a>
                     </li>
                 @endif
             </ul>

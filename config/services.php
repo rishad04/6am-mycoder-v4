@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'mock_stripe' => [
+        'key' => env('STRIPE_SECRET_MOCK', 'mock_key'),
+    ],
+
 ];

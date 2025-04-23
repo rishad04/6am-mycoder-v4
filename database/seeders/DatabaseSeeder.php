@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SubscriptionPlanSeeder::class);
         $this->call(ProductCategorySeeder::class);
         $this->call(ProductSeeder::class);
+        $this->call(TaskSeeder::class);
 
         Artisan::call('cache:clear');
         Artisan::call('config:clear');

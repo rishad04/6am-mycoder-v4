@@ -4,11 +4,13 @@ use App\Models\Notification;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\CommonThingsController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Frontend\NotificationController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\SubscriptionUserController;
 
@@ -50,35 +52,25 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin
 
         //Tasks: 6am
 
-        Route::resource('subscription-plans', SubscriptionPlanController::class);
-        Route::resource('subscription-users', SubscriptionUserController::class);
+        Route::resource('/subscription-plans', SubscriptionPlanController::class);
+        Route::resource('/subscription-users', SubscriptionUserController::class);
 
         //Task 3
-        Route::resource('product-categories', ProductCategoryController::class);
-        Route::resource('products',           ProductController::class);
+        Route::resource('/product-categories', ProductCategoryController::class);
+        Route::resource('/products',           ProductController::class);
+
+        //Task 4
+        Route::resource('/tasks',           TaskController::class);
     });
 });
+
+//Task 2
+
+Route::get('/get-latest-notification',           [NotificationController::class, 'getLatestNotification']);
+Route::get('/get-latest-notification-back-to-set-broadcasted',   [NotificationController::class, 'resetBroadcasted']);
+
 
 Route::get('/redis-test', function () {
     \Illuminate\Support\Facades\Redis::set('rishad', 'you did it!');
     return \Illuminate\Support\Facades\Redis::get('rishad');
-});
-
-
-Route::get('/get-latest-notification', function () {
-    $message = Cache::get('latest_notification');
-
-    $notification = Notification::where('is_broadcasted', 0)->first();
-
-    if ($notification != '') {
-        return response()->json(['message' => $notification->message]);
-    }
-
-    return response()->json(['message' => null]);
-});
-
-Route::get('/get-latest-notification-back-to-set-broadcasted', function () {
-    Notification::query()->update(['is_broadcasted' => 1]);
-    // dd($notification);
-    return response()->json(['message' => 'resetted!']);
 });

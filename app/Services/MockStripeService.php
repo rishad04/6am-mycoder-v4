@@ -4,12 +4,19 @@ namespace App\Services;
 
 class MockStripeService
 {
-  public static function createSubscription($user, $plan)
+  public static function createSubscription($user, $plan, $key)
   {
     // Simulate a payment success or failure based on plan or other logic
-    $payment_status = rand(0, 1) === 1 ? 'success' : 'failed';
-    // $test = 1;
-    // $payment_status = $test === 1 ? 'success' : 'failed';
+    $payment_status = 'failed'; // Default
+
+    if ($key === 'mock_key') {
+      $payment_status = rand(0, 1) === 1 ? 'success' : 'failed';
+    } elseif ($key === 'always_success') {
+      $payment_status = 'success';
+    } elseif ($key === 'always_fail') {
+      $payment_status = 'failed';
+    }
+
 
     return [
       'status' => $payment_status,

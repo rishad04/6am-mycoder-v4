@@ -7,39 +7,44 @@ use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Admin\SubscriptionUserController;
 use App\Http\Controllers\Frontend\FrontendLandingPageController;
 
-Route::group(['as' => 'frontend.'], function () {
+// routes/frontend.php
 
+Route::prefix('frontend')->name('frontend.')->group(function () {
+
+    // Landing and Auth Pages
     Route::get('/home', [FrontendLandingPageController::class, 'index'])->name('landing.index');
-    Route::get('/home2', [FrontendLandingPageController::class, 'index'])->name('landing.index2')->middleware('auth:sanctum');
     Route::get('/login', [FrontendLandingPageController::class, 'loginFormShow'])->name('login');
     Route::get('/register', [FrontendLandingPageController::class, 'registerFormShow'])->name('register');
 
-    Route::post('/login', [FrontendAuthController::class, 'login'])->name('login.submit')->middleware('guest');
-    Route::post('/register', [FrontendAuthController::class, 'register'])->name('register.submit')->middleware('guest');
+    // Auth actions
+    Route::middleware('guest')->group(function () {
+        Route::post('/login', [FrontendAuthController::class, 'login'])->name('login.submit');
+        Route::post('/register', [FrontendAuthController::class, 'register'])->name('register.submit');
+    });
 
-    Route::get('/product-showcase-cached/{slug?}', [FrontendLandingPageController::class, 'productsCasched'])->name('product-showcase-cached.index');
+    Route::middleware('auth')->group(function () {
+        Route::post('/logout', [FrontendAuthController::class, 'logout'])->name('logout');
+
+        // Task Management
+        Route::get('/my-tasks', [FrontendLandingPageController::class, 'myTasks'])->name('my-tasks.index');
+        Route::get('/my-task/{id}', [FrontendLandingPageController::class, 'myTaskDetails'])->name('my-tasks.details');
+        Route::post('/my-tasks', [FrontendLandingPageController::class, 'myTasksStore'])->name('my-tasks.store');
+    });
+
+    // Products - Cached & Non-Cached
     Route::get('/product-showcase/{slug?}', [FrontendLandingPageController::class, 'products'])->name('product-showcase.index');
     Route::get('/product-details/{slug}', [FrontendLandingPageController::class, 'productDetails'])->name('product.details');
-    Route::get('/product-details-cached/{slug}', [FrontendLandingPageController::class, 'productDetailsCached'])->name('product.details.cached');
 
-    Route::post('/logout', [FrontendAuthController::class, 'logout'])->name('logout')->middleware('auth');
+    Route::get('/product-showcase-cached/{slug?}', [FrontendLandingPageController::class, 'productsCasched'])->name('product-showcase-cached.index');
+    Route::get('/product-details-cached/{slug}', [FrontendLandingPageController::class, 'productDetailsCached'])->name('product.details.cached');
 });
 
+
+
+// Task 1 Frontend Subscription, Cancel Subscription and Subscription Details Vide Routes
 Route::group(['Middleware' => 'auth:sanctum'], function () {
 
-    Route::post('/subscribe', [SubscriptionUserController::class, 'subscribe'])->name('subscribe');
-
-    Route::get('/subscription-view/{id}', [SubscriptionUserController::class, 'subscriptionShowFrontend'])->middleware('auth:sanctum');
-
-    Route::post('/subscription-cancel', [SubscriptionUserController::class, 'cancelSubscription'])->name('subscription.cancel')->middleware('auth:sanctum');
-
-    Route::get('/get-latest-notification2', function () {
-        return response()->json([
-            'message' => Cache::get('latest_notification')
-        ]);
-    });
+    Route::post('/subscribe', [FrontendLandingPageController::class, 'subscribe'])->name('subscribe');
+    Route::get('/subscription/view/{id}', [FrontendLandingPageController::class, 'subscriptionShowFrontend']);
+    Route::post('/subscription-cancel', [FrontendLandingPageController::class, 'cancelSubscription'])->name('subscription.cancel');
 });
-
-// Route::middleware('auth:sanctum')->get('/dashboard', function () {
-//     return view('frontend.login_form');
-// });

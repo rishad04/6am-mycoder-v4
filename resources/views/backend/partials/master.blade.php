@@ -134,6 +134,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 
+    {{-- <script>
+        $(document).ready(function() {
+            $('#default_order').DataTable({
+                columnDefs: [{
+                    targets: 0, // First column (Serial)
+                    orderable: false,
+                    searchable: false
+                }]
+            });
+        });
+    </script> --}}
+
     @yield('js')
 </body>
 

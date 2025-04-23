@@ -19,7 +19,7 @@ class RoleHasPermissionsTableSeeder extends Seeder
         $data = [];
 
         for ($i = 1; $i <= 3; $i++) {
-            for ($j = 1; $j <= 60; $j++) {
+            for ($j = 1; $j <= 64; $j++) {
                 if (($i == 1 && in_array($j, [2, 3, 4, 9, 10, 11, 12, 13, 14, 15, 16])) || ($i == 2 && in_array($j, [2, 3, 4]))) {
                 } else {
                     $row = [
