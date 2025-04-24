@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Task;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use App\Models\SubscriptionPlan;
@@ -24,7 +25,9 @@ class FrontendLandingPageController extends Controller
     {
         $plans_frontend = SubscriptionPlan::where('is_active', 1)->orderBy('order', 'asc')->take(3)->get();
 
-        return view('frontend.landing_Page_index', compact('plans_frontend'));
+        $notifications = Notification::take(5)->get();
+
+        return view('frontend.landing_Page_index', compact('plans_frontend', 'notifications'));
     }
 
     public function loginFormShow()
@@ -36,6 +39,21 @@ class FrontendLandingPageController extends Controller
     public function registerFormShow()
     {
         return view('frontend.register_form');
+    }
+
+    public function fetch()
+    {
+        $notifications = Notification::latest()->take(5)->get();
+
+        if (!$notifications) {
+            return response()->json([
+                'notifications' => 'No Notifications!'
+            ]);
+        }
+
+        return response()->json([
+            'notifications' => $notifications
+        ]);
     }
 
     public function subscribe(Request $request)

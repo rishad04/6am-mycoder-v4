@@ -260,6 +260,9 @@
                         // console.log(data);
 
                         if (data.message != null) {
+
+                            const blinker = document.getElementById('notification-blinker');
+                            blinker.classList.remove('d-none');
                             SwalFlashNotificationAlert(true, '🔔 ' + data.message, null, null);
                         }
 

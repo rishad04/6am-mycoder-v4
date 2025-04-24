@@ -17,6 +17,8 @@ Route::prefix('frontend')->name('frontend.')->group(function () {
     Route::get('/login', [FrontendLandingPageController::class, 'loginFormShow'])->name('login');
     Route::get('/register', [FrontendLandingPageController::class, 'registerFormShow'])->name('register');
 
+
+
     // Auth actions
     Route::middleware('guest')->group(function () {
         Route::post('/login', [FrontendAuthController::class, 'login'])->name('login.submit');
@@ -49,3 +51,5 @@ Route::group(['Middleware' => 'auth:sanctum'], function () {
     Route::get('/subscription/view/{id}', [FrontendUserSubscriptionController::class, 'subscriptionShowFrontend']);
     Route::post('/subscription-cancel', [FrontendUserSubscriptionController::class, 'cancelSubscription'])->name('subscription.cancel');
 });
+
+Route::get('/notifications/fetch', [FrontendLandingPageController::class, 'fetch'])->name('fetch.notifications');

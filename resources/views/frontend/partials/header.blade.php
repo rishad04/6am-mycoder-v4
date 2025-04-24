@@ -10,16 +10,6 @@
 
         {{-- <button onclick="showNotification('Welcome! This is a test notification.')">Show Notification</button> --}}
 
-        {{-- @if (auth()->user() != '')
-            <button class="btn btn-success" onclick="showNotification('You have a new message!')">Notifications
-            </button>
-
-            <div class="notification" id="notification">
-                <div class="message" id="notifications"></div>
-                <button class="close-btn" onclick="hideNotification()">&times;</button>
-            </div>
-        @endif --}}
-
         <nav id="navmenu" class="navmenu" style="margin-right:10px">
             {{-- @dd(request()->url()) --}}
             <ul>
@@ -57,7 +47,20 @@
                         <a href="{{ route('frontend.my-tasks.index') }}" class="{{ request()->is('my-task*') ? 'active' : '' }}">My
                             Tasks</a>
                     </li>
+
+                    <li class="dropdown" id="notification-dropdown">
+                        <a href="javascript:void(0);" onclick="loadNotifications()">
+                            <span>
+                                <span id="notification-blinker" class="blink d-none"></span> Notifications
+                            </span>
+                            <i class="bi bi-chevron-down toggle-dropdown"></i>
+                        </a>
+                        <ul id="notification-list">
+                            <!-- Notifications will be loaded here via JS -->
+                        </ul>
+                    </li>
                 @endif
+
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
@@ -79,3 +82,34 @@
 
     </div>
 </header>
+
+@push('frontend_scripts')
+    <script>
+        function loadNotifications() {
+            fetch("/notifications/fetch")
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById("notification-list");
+                    list.innerHTML = ''; // Clear old items
+
+                    if (data.notifications.length > 0) {
+                        data.notifications.forEach(notification => {
+                            const li = document.createElement("li");
+                            li.innerHTML = `<a href="#">${notification.message}</a>`;
+                            list.appendChild(li);
+                        });
+
+                        // Hide blinker once viewed
+                        document.getElementById('notification-blinker').classList.add('d-none');
+                    } else {
+                        const li = document.createElement("li");
+                        li.innerHTML = `<a href="#">No new notifications</a>`;
+                        list.appendChild(li);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error loading notifications:", error);
+                });
+        }
+    </script>
+@endpush

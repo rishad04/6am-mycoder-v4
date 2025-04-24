@@ -103,6 +103,29 @@
             right: 10px;
             padding-bottom: 10px;
         }
+
+        .blink {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: red;
+            border-radius: 50%;
+            animation: blink-animation 1s infinite;
+        }
+
+        @keyframes blink-animation {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
     </style>
 
     <!-- =======================================================
