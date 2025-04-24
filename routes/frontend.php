@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Admin\SubscriptionUserController;
 use App\Http\Controllers\Frontend\FrontendLandingPageController;
+use App\Http\Controllers\Frontend\FrontendUserSubscriptionController;
 
 // routes/frontend.php
 
@@ -44,7 +45,7 @@ Route::prefix('frontend')->name('frontend.')->group(function () {
 // Task 1 Frontend Subscription, Cancel Subscription and Subscription Details Vide Routes
 Route::group(['Middleware' => 'auth:sanctum'], function () {
 
-    Route::post('/subscribe', [FrontendLandingPageController::class, 'subscribe'])->name('subscribe');
-    Route::get('/subscription/view/{id}', [FrontendLandingPageController::class, 'subscriptionShowFrontend']);
-    Route::post('/subscription-cancel', [FrontendLandingPageController::class, 'cancelSubscription'])->name('subscription.cancel');
+    Route::post('/subscribe', [FrontendUserSubscriptionController::class, 'subscribe'])->name('subscribe');
+    Route::get('/subscription/view/{id}', [FrontendUserSubscriptionController::class, 'subscriptionShowFrontend']);
+    Route::post('/subscription-cancel', [FrontendUserSubscriptionController::class, 'cancelSubscription'])->name('subscription.cancel');
 });

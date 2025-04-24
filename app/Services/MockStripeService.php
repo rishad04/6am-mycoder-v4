@@ -2,32 +2,55 @@
 
 namespace App\Services;
 
+use App\Enums\StripePaymentStatusEnum;
+use App\Models\StripePaymentSubscriptionStatus;
+
 class MockStripeService
 {
+
+  protected static $apiKey;
+  protected static $secret;
+
+  public function __construct()
+  {
+    self::$apiKey = config('services.stripe.key');
+    self::$secret = config('services.stripe.secret');
+  }
+
   public static function createSubscription($user, $plan, $key)
   {
-    // Simulate a payment success or failure based on plan or other logic
-    $payment_status = 'failed'; // Default
-
-    if ($key === 'mock_key') {
-      $payment_status = rand(0, 1) === 1 ? 'success' : 'failed';
-    } elseif ($key === 'always_success') {
-      $payment_status = 'success';
-    } elseif ($key === 'always_fail') {
-      $payment_status = 'failed';
+    if (!self::$apiKey || !self::$secret) {
+      return [
+        'status' => 'config_mismatch'
+      ];
     }
+
+    $payment_status = 'failed';
+
+    // Set payment status based on the mock key
+    switch ($key) {
+      case 'mock_key':
+        $payment_status = mt_rand(0, 1) === 1 ? 'success' : 'failed';
+        break;
+      case 'always_success':
+        $payment_status = 'success';
+        break;
+      case 'always_fail':
+        $payment_status = 'failed';
+        break;
+    }
+
+    $payment_method = rand(0, 1) === 1 ? 'Visa' : 'MasterCard';
 
 
     return [
       'status' => $payment_status,
-      'subscription_id' => uniqid('sub_'), // Simulating a subscription ID
       'payment_status' => $payment_status
     ];
   }
 
   public static function cancelSubscription($subscriptionId)
   {
-    // Simulate a cancel request
     return [
       'status' => 'canceled',
       'subscription_id' => $subscriptionId
@@ -36,10 +59,9 @@ class MockStripeService
 
   public static function getSubscriptionStatus($subscriptionId)
   {
-    // Simulate fetching subscription status
     return [
-      'status' => 'active', // Could be 'active', 'canceled', 'expired'
-      'payment_status' => 'success', // Could be 'success', 'failed'
+      'status' => 'active',
+      'payment_status' => 'success',
       'subscription_id' => $subscriptionId
     ];
   }

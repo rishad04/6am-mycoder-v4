@@ -126,7 +126,7 @@
                             // console.log(location.href);
                             location.reload();
                         } else {
-                            SwalFlashMiddlelert('Failed', 'Stripe Payment Failed!', 'Please Try Again', 'error');
+                            SwalFlashMiddlelert('Failed', response.message, 'Failed, Please Try Again', 'error');
                         }
                     },
                     error: function(xhr, status, error) {

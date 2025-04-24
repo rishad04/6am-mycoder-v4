@@ -35,4 +35,10 @@ return [
         'key' => env('STRIPE_SECRET_MOCK', 'mock_key'),
     ],
 
+    'stripe' => [
+        'key' => env('STRIPE_API_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+    ],
+
+
 ];

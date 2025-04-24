@@ -11,15 +11,6 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">{{ $info->title }}</h4>
-                            <div class="float-right">
-                                {{-- @can('product-create')
-                                    <a href="{{ route($info->first_button_route) }}" class="btn btn-primary">
-                                        <i class="flaticon2-add"></i>
-                                        + {{ $info->first_button_title }}
-                                    </a>
-                                @endcan --}}
-
-                            </div>
 
                             <div class="table-responsive">
                                 <table id="" class="table table-striped table-bordered display no-wrap" style="width:100%">
@@ -31,8 +22,9 @@
                                             <th>Subscription Period</th>
                                             <th>Payment Info</th>
                                             <th>status</th>
-                                            <th>Subscribe</th>
-                                            <th>Actions</th>
+                                            <th>Subscribed</th>
+                                            <th>Cancelled By</th>
+                                            {{-- <th>Actions</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -70,8 +62,8 @@
 
                                                 <td>
 
-                                                    <div>Start Date: {{ $row->start_date }}</div>
-                                                    <div>End Date: {{ $row->end_date }}</div>
+                                                    <div>Start Date: {{ customDateFormat($row->start_date) }}</div>
+                                                    <div>End Date: {{ customDateFormat($row->end_date) }}</div>
 
                                                 </td>
 
@@ -84,16 +76,14 @@
                                                             Method: {{ $row->payment_method }}
                                                         </a>
                                                     </div>
-                                                    <div>
-                                                        <a href="#" class="link-color">
-                                                            Verified : {{ $row->payment_verified == 1 ? 'Yes' : 'No' }}
-                                                        </a>
-                                                    </div>
                                                 </td>
 
                                                 <td>
-                                                    {{ $row->is_active ? 'Subscribed' : 'Unsubscribed' }}
-
+                                                    @if ($row->user_unsubscribed_at != '')
+                                                        {{ \App\Enums\StripeStatusEnum::CANCELLED->label() }}
+                                                    @else
+                                                        {{ $row->is_active ? \App\Enums\StripeStatusEnum::SUCCEEDED->label() : \App\Enums\StripeStatusEnum::FAILED->label() }}
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <div class="form-check form-switch form-switch-md">
@@ -103,7 +93,12 @@
                                                     </div>
 
                                                 </td>
+
                                                 <td>
+                                                    {{ $row->user_unsubscribed_at != '' ? 'User at: ' . customDateFormat($row->user_unsubscribed_at) : '-' }}
+                                                </td>
+
+                                                {{-- <td>
                                                     <a class="trk-action__item trk-action__item--success"
                                                         href="{{ route('admin.subscription-users.show', $row->id) }}">
                                                         <i class="lni lni-eye"></i>
@@ -117,7 +112,7 @@
                                                         <i class="lni lni-trash-can"></i>
                                                     </a>
 
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                             @php
                                                 $serial++;
@@ -136,7 +131,7 @@
 
         </div>
     </div>
-    @include('backend.components.modals.delete')
+    {{-- @include('backend.components.modals.delete') --}}
 @endsection
 
 @section('css')

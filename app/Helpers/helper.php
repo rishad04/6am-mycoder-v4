@@ -1073,3 +1073,14 @@ function customDateFormat($date)
 
   return \Carbon\Carbon::parse($date)->format('jS F Y');
 }
+
+function getDateAfterXDays(string $date, int $days): string
+{
+  $date_object = new DateTime($date);
+
+  $interval = new DateInterval("P{$days}D");
+
+  $date_object->add($interval);
+
+  return $date_object->format('Y-m-d');
+}
