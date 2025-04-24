@@ -25,6 +25,14 @@
                     </ul>
 
                 <li class="list-divider"></li>
+                <li class="nav-small-cap"><span class="hide-menu">Task 2</span></li>
+
+                <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{{ route('admin.notification.index') }}"
+                        aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                            class="hide-menu">Notifications</span></a>
+                </li>
+
+                <li class="list-divider"></li>
                 <li class="nav-small-cap"><span class="hide-menu">Task 3</span></li>
 
                 <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false"><i

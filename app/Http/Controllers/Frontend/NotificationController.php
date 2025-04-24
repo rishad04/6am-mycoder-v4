@@ -3,20 +3,26 @@
 namespace App\Http\Controllers\Frontend;
 
 
-use App\Models\User;
+use stdClass;
 use App\Models\Notification;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use App\Events\Task2\NewUserRegisteredNotification;
 
 class NotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function all()
+    {
+        $data = Notification::paginate(15);
+
+        $info = new stdClass();
+        $info->page_title = 'Notifications';
+        $info->title = 'Notifications';
+
+        return view('backend.notifications.index', compact('data', 'info'));
+    }
 
     public function getLatestNotification()
     {

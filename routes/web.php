@@ -61,6 +61,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admi
 
         //Task 4
         Route::resource('/tasks',           TaskController::class);
+
+        Route::get('/notifications',           [NotificationController::class, 'all'])->name('notification.index');
     });
 });
 

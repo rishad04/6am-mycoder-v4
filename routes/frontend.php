@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendAuthController;
 use App\Http\Controllers\Admin\SubscriptionUserController;
+use App\Http\Controllers\Frontend\FrontendProductController;
+use App\Http\Controllers\Frontend\FrontendUserTaskController;
 use App\Http\Controllers\Frontend\FrontendLandingPageController;
 use App\Http\Controllers\Frontend\FrontendUserSubscriptionController;
 
@@ -29,17 +31,17 @@ Route::prefix('frontend')->name('frontend.')->group(function () {
         Route::post('/logout', [FrontendAuthController::class, 'logout'])->name('logout');
 
         // Task Management
-        Route::get('/my-tasks', [FrontendLandingPageController::class, 'myTasks'])->name('my-tasks.index');
-        Route::get('/my-task/{id}', [FrontendLandingPageController::class, 'myTaskDetails'])->name('my-tasks.details');
-        Route::post('/my-tasks', [FrontendLandingPageController::class, 'myTasksStore'])->name('my-tasks.store');
+        Route::get('/my-tasks', [FrontendUserTaskController::class, 'myTasks'])->name('my-tasks.index');
+        Route::get('/my-task/{id}', [FrontendUserTaskController::class, 'myTaskDetails'])->name('my-tasks.details');
+        Route::post('/my-tasks', [FrontendUserTaskController::class, 'myTasksStore'])->name('my-tasks.store');
     });
 
     // Products - Cached & Non-Cached
-    Route::get('/product-showcase/{slug?}', [FrontendLandingPageController::class, 'products'])->name('product-showcase.index');
-    Route::get('/product-details/{slug}', [FrontendLandingPageController::class, 'productDetails'])->name('product.details');
+    Route::get('/product-showcase/{slug?}', [FrontendProductController::class, 'products'])->name('product-showcase.index');
+    Route::get('/product-details/{slug}', [FrontendProductController::class, 'productDetails'])->name('product.details');
 
-    Route::get('/product-showcase-cached/{slug?}', [FrontendLandingPageController::class, 'productsCasched'])->name('product-showcase-cached.index');
-    Route::get('/product-details-cached/{slug}', [FrontendLandingPageController::class, 'productDetailsCached'])->name('product.details.cached');
+    Route::get('/product-showcase-cached/{slug?}', [FrontendProductController::class, 'productsCasched'])->name('product-showcase-cached.index');
+    Route::get('/product-details-cached/{slug}', [FrontendProductController::class, 'productDetailsCached'])->name('product.details.cached');
 });
 
 
