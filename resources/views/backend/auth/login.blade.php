@@ -39,7 +39,9 @@
                 {{-- <div class="text-center">
                     <img src="assets/images/big/icon.png" alt="wrapkit">
                 </div> --}}
-                <h2 class="mt-3 text-center">Sign In</h2>
+                <h2 class="mt-3 text-center">Sign In With This Credentials</h2>
+                <p class="text-center">Email: superadmin@rishad.com</p>
+                <p class="text-center">pass : 12345678</p>
                 <p class="text-center">Enter your email address and password to access admin panel</p>
                 <form action="{{ route('admin.login.submit') }}" method="POST" class="mt-4">
                     @csrf

@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-5 align-self-center">
                     <div class="customize-input float-right">
-                        <button type="button" class="btn waves-effect waves-light btn-lg btn-primary">Clear All cache </button>
+                        {{-- <button type="button" class="btn waves-effect waves-light btn-lg btn-primary">Clear All cache </button> --}}
                     </div>
                 </div>
             </div>

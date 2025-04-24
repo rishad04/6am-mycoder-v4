@@ -113,14 +113,21 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        // Generate slug for each
         foreach ($products as &$product) {
-            $product['slug'] = Str::slug($product['title']);
+            $baseSlug = Str::slug($product['title']);
+            $slug = $baseSlug;
+            $suffix = '';
+
+            while (Product::where('slug', $slug)->exists() || collect($products)->where('slug', $slug)->count() > 0) {
+                $suffix .= '-';
+                $slug = $baseSlug . $suffix;
+            }
+
+            $product['slug'] = $slug;
         }
 
         DB::table('products')->insert($products);
 
-        // Factory data
-        Product::factory()->count(8000)->create();
+        Product::factory()->count(2000)->create();
     }
 }

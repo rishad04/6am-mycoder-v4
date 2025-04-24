@@ -22,16 +22,29 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $title = $this->faker->words(3, true);
+        static $usedSlugs = [];
+
+        $title    = $this->faker->words(3, true);
+        $baseSlug = Str::slug($title);
+        $slug     = $baseSlug;
+        $suffix = '';
+
+        // Check in both: database and used slugs in memory
+        while (Product::where('slug', $slug)->exists() || in_array($slug, $usedSlugs)) {
+            $suffix .= '-';
+            $slug = $baseSlug . $suffix;
+        }
+
+        $usedSlugs[] = $slug;
 
         return [
             'banner'              => 'backend/assets/images/products/sample-' . $this->faker->numberBetween(1, 5) . '.png',
             'product_category_id' => ProductCategory::inRandomOrder()->value('id'),
             'title'               => $title,
-            'slug'                => Str::slug($title),
+            'slug'                => $slug,
             'price'               => $this->faker->numberBetween(300, 15000),
             'stock_quantity'      => $this->faker->numberBetween(1, 500),
-            'is_popular'          => 0, // 60% chance to be popular
+            'is_popular'          => 0,
             'description'         => $this->faker->paragraph(1),
             'short_description'   => $this->faker->sentence(30)
         ];
