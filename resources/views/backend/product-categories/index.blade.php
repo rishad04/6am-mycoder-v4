@@ -29,7 +29,7 @@
 
                                             <th>Title</th>
                                             <th>Is Active</th>
-                                            <th>Actions</th>
+                                            {{-- <th>Actions</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,21 +51,6 @@
                                                             onclick="toggleSwitchStatus(this,'subscription_plans');" class="form-check-input"
                                                             @if ($row->is_active == 1) checked @endif>
                                                     </div>
-
-                                                </td>
-                                                <td>
-                                                    <a class="trk-action__item trk-action__item--success"
-                                                        href="{{ route('admin.subscription-plans.show', $row->id) }}">
-                                                        <i class="lni lni-eye"></i>
-                                                    </a>
-                                                    <a class="trk-action__item trk-action__item--warning"
-                                                        href="{{ route('admin.subscription-plans.edit', $row->id) }}">
-                                                        <i class="lni lni-pencil-alt"></i>
-                                                    </a>
-                                                    <a onclick="Delete(`{{ route('admin.subscription-plans.destroy', $row->id) }}`)"
-                                                        class="trk-action__item trk-action__item--danger" href="#">
-                                                        <i class="lni lni-trash-can"></i>
-                                                    </a>
 
                                                 </td>
                                             </tr>
