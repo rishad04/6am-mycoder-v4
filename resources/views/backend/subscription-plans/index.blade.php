@@ -1,7 +1,7 @@
 @extends('backend.partials.master')
 
 @section('title')
-    {{ $page_title }}
+    {{ $info->page_title }}
 @endsection
 @section('container')
     <div class="page-wrapper">
@@ -10,15 +10,14 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Default Ordering</h4>
+                            <h4 class="card-title">{{ $info->title }}</h4>
                             <div class="float-right">
-                                {{-- @can('subscription-plan-create')
+                                @can('subscription-plan-create')
                                     <a href="{{ route($info->first_button_route) }}" class="btn btn-primary">
                                         <i class="flaticon2-add"></i>
                                         + {{ $info->first_button_title }}
                                     </a>
-                                @endcan --}}
-
+                                @endcan
                             </div>
 
                             <div class="table-responsive">
@@ -68,15 +67,18 @@
 
                                                 </td>
                                                 <td>
-                                                    <a class="" href="{{ route('admin.subscription-plans.show', $row->id) }}">
+
+                                                    <a class="trk-action__item trk-action__item--success"
+                                                        href="{{ route('admin.subscription-plans.show', $row->id) }}">
                                                         <i class="lni lni-eye"></i>
                                                     </a>
+
                                                     <a class="" href="{{ route('admin.subscription-plans.edit', $row->id) }}">
                                                         <i class="lni lni-pencil-alt"></i>
                                                     </a>
-                                                    <a onclick="Delete(`{{ route('admin.subscription-plans.destroy', $row->id) }}`)"
-                                                        class="" href="#">
-                                                        <i class="lni lni-trash-can"></i>
+                                                    <a href="javascript:void(0);"
+                                                        onclick="ajaxDelete(`{{ route('admin.subscription-plans.destroy', $row->id) }}`, 'Subscription Plan', this)">
+                                                        <i class="lni lni-trash-can text-danger"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -86,6 +88,8 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+
+                                {{ $data->links('pagination::bootstrap-4') }}
                             </div>
                         </div>
                     </div>
@@ -94,7 +98,6 @@
 
         </div>
     </div>
-    @include('backend.components.modals.delete')
 @endsection
 
 @section('css')

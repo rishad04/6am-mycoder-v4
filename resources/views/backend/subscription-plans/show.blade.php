@@ -1,79 +1,61 @@
+{{-- Extends layout --}}
 @extends('backend.partials.master')
 
 @section('title')
-    {{ $page_title }}
+    {{ $info->page_title }}
 @endsection
 
+{{-- Content --}}
 @section('container')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="trk-card">
-                <div class="trk-card__header d-flex justify-content-between">
-                    <div class="trk-card__title">
-                        <h5>{{ $info->title }}</h5>
-                    </div>
-                    <div class="float-right">
-                        @can('subscription-plan-update')
-                            <a href="{{ route($info->first_button_route, $id) }}" class="btn btn-primary">
-                                <i class="flaticon2-add"></i>
-                                {{ $info->first_button_title }}
-                            </a>
-                        @endcan
-                        <a href="{{ route($info->second_button_route) }}" class="btn btn-warning">
-                            <i class="flaticon2-add"></i>
-                            {{ $info->second_button_title }}
-                        </a>
-                    </div>
-                </div>
-                <div class="trk-card__body">
-                    <div class="trk-card__body-text">
-                        <ul class="crud-view mt-4">
-                            <li class="crud-view__item">
-                                <span class="crud-view__item-title">Banner:</span>
-                                <span class="crud-view__item-content">
-                                    <div class="trk-avatar d-flex flex-wrap align-items-center">
-                                        <div class="trk-avatar__item me-3">
+    <div class="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ $info->title }}</h4>
+                            <div class="float-right">
+                            </div>
 
-                                            <img style="height:100px;"
-                                                @if ($data->banner) src="{{ asset($data->banner) }}"
-                        @else                
-                            src="{{ asset(avatarUrl()) }}" @endif
-                                                alt="#" data-bs-original-title="" title="">
-                                        </div>
-                                    </div>
-                                </span>
-                            </li>
-                            <li class="crud-view__item">
-                                <span class="crud-view__item-title">Title:</span>
-                                <span class="crud-view__item-content">{{ $data->title }}</span>
-                            </li>
-                            <li class="crud-view__item">
-                                <span class="crud-view__item-title">Slug:</span>
-                                <span class="crud-view__item-content">{{ $data->slug }}</span>
-                            </li>
-                            <li class="crud-view__item">
-                                <span class="crud-view__item-title">Price:</span>
-                                <span class="crud-view__item-content">{{ $data->price }}</span>
-                            </li>
-                            <li class="crud-view__item">
-                                <span class="crud-view__item-title">Is Popular:</span>
-                                <span class="crud-view__item-content">{{ $data->is_popular }}</span>
-                            </li>
+                            <div class="table-responsive">
+                                <table id="" class="table table-striped table-bordered display no-wrap" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Banner : <img src="{{ asset($data->banner ?? avatarUrl()) }}" style="height: 50px; width:50px"
+                                                    alt=""> </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Title : {{ $data->title }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Slug : {{ $data->slug }}</th>
+                                        </tr>
 
-                            <li class="crud-view__item">
-                                <span class="crud-view__item-title">Billing Cycle:</span>
-                                <span class="crud-view__item-content">
-                                    {{ $data->billing_cycle }} </span>
-                            </li>
-                            <li class="crud-view__item">
-                                <span class="crud-view__item-title">Description:</span>
-                                <span class="crud-view__item-content">{!! $data->description !!}</span>
-                            </li>
-
-                        </ul>
+                                        <tr>
+                                            <th>Price : {{ $data->price }} Tk</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Billing Cycle : {{ $data->billing_cycle->label() }}</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Created At : {{ customDateFormat($data->created_at) }}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
+@endsection
+
+@section('css')
+    @parent
+@endsection
+
+@section('js')
+    @parent
 @endsection

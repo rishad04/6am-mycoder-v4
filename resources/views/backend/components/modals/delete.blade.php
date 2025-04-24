@@ -1,49 +1,30 @@
-<div class="crud-item-delete d-none">
+<!-- Modal -->
+<div class="modal fade" id="subscriptionModal_{{ $row->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $row->id }}"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel{{ $row->id }}">Subscription Plan Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-    <form id="deleteCrudItemForm" class="form" method="POST">
-        @method('DELETE')
-        @csrf
-        <input type="submit" value="Delete" class="btn btn-danger">
-    </form>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Title:</strong> {{ $row->title }}</li>
+                    <li class="list-group-item"><strong>Slug:</strong> {{ $row->slug }}</li>
+                    <li class="list-group-item"><strong>Price:</strong> {{ $row->price }}</li>
+                    <li class="list-group-item"><strong>Is Popular:</strong> {{ $row->is_popular ? 'Yes' : 'No' }}</li>
+                    <li class="list-group-item"><strong>Billing Cycle:</strong> {{ $row->billing_cycle }}</li>
+                    <li class="list-group-item"><strong>Description:</strong> {!! $row->description !!}</li>
+                </ul>
+            </div>
 
+            <div class="modal-footer">
+                <a href="{{ route('admin.subscription-plans.edit', $row->id) }}" class="btn btn-primary">
+                    Edit
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
-<script type="text/javascript">
-    function deleteCrudItem(route, key='Item') {
-        var form = document.getElementById('deleteCrudItemForm');
-        var attribute = document.createAttribute("action");
-        attribute.value = route;
-        form.setAttributeNode(attribute);
-
-        Swal.fire({
-            text: "Once you delete this, can't be restore.",
-            icon: "error",
-            title: "Do you want to delete this "+key+"?",
-            // showDenyButton: true,
-            confirmButtonText: "Yes, Delete "+key,
-            confirmButtonColor: "#d33",
-            showCancelButton: true,
-            reverseButtons:true
-            // denyButtonText: `Don't save`
-        }).then((result) => {
-
-        /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-
-                form.submit();
-                
-            } else if (result.isDenied) {
-
-                
-            }
-
-        });
-    }
-
-    function Export(format) {
-        var url = window.location.pathname + '?export=' + format;
-        window.location.replace(url);
-    }
-</script>

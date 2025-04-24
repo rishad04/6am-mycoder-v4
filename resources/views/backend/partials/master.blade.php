@@ -57,6 +57,17 @@
             bottom: 10px;
             right: 10px;
         }
+
+        .danger {
+            color: red;
+        }
+
+        .invalid {
+            color: #c71f1f;
+            width: 100%;
+            invalid-property: something-wrong;
+            background-color: #f0f0f0
+        }
     </style>
 
     @yield('css')
@@ -145,6 +156,66 @@
             });
         });
     </script> --}}
+
+    <script type="text/javascript">
+        function Delete(route) {
+
+            var form = document.getElementById('deleteForm');
+            var attribute = document.createAttribute("action");
+            attribute.value = route;
+            form.setAttributeNode(attribute);
+
+            $('#deleteModal').modal('show');
+        }
+
+        function Export(format) {
+            var url = window.location.pathname + '?export=' + format;
+            window.location.replace(url);
+
+        }
+    </script>
+
+    <script>
+        function ajaxDelete(route, key = 'Item', el = null) {
+            Swal.fire({
+                title: `Delete ${key}?`,
+                text: "Once deleted, it cannot be restored.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: `Yes, delete`,
+                confirmButtonColor: "#d33",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(route, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'Accept': 'application/json',
+                            }
+                        })
+                        .then(res => {
+                            if (!res.ok) throw new Error('Delete failed');
+                            return res.json(); // Expecting JSON response
+                        })
+                        .then(data => {
+                            Swal.fire('Deleted!', `${key} has been deleted.`, 'success');
+
+                            // Optionally remove the table row or DOM element
+                            // Assuming you are inside a table row
+                            if (el) {
+                                const row = el.closest('tr');
+                                if (row) row.remove();
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire('Error', 'Something went wrong while deleting.', 'error');
+                            console.error('Delete error:', error);
+                        });
+                }
+            });
+        }
+    </script>
 
     @yield('js')
 </body>

@@ -40,7 +40,7 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin', 'web'],], function () {
 
     Route::controller(DashboardController::class)->group(function () {
 

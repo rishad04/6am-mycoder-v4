@@ -1,26 +1,27 @@
 <?php
 
+use Illuminate\Foundation\Mix;
+use Illuminate\Routing\Router;
+use Illuminate\Support\HtmlString;
 use Illuminate\Container\Container;
-use Illuminate\Contracts\Auth\Access\Gate;
-use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Queue\CallQueuedClosure;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Contracts\Cookie\Factory as CookieFactory;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Foundation\Bus\PendingDispatch;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Foundation\Bus\PendingClosureDispatch;
-use Illuminate\Foundation\Bus\PendingDispatch;
-use Illuminate\Foundation\Mix;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Queue\CallQueuedClosure;
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\HtmlString;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Contracts\Cookie\Factory as CookieFactory;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 
 if (! function_exists('abort')) {
   /**
@@ -1033,4 +1034,42 @@ function apiResponse($result, $message, $data = null, $code = 200)
     'data' => $data,
     'status_code' => $code
   ], $code);
+}
+
+
+function ___($key = null, $replace = [], $locale = null)
+{
+  try {
+
+    $input       = explode('.', $key);
+    $file        = $input[0];
+    $term        = $input[1];
+    $app_local   = Session::get('locale');
+
+    if ($app_local == "") {
+      $app_local = 'en';
+    }
+
+    $jsonString  = file_get_contents(base_path('lang/' . $app_local . '/' . $file . '.json'));
+
+    $data        = json_decode($jsonString, true);
+
+
+    if (@$data[$term]) {
+      return $data[$term];
+    }
+
+    return $data[$term] ?? $term;
+  } catch (\Exception $e) {
+    return $key;
+  }
+}
+
+function customDateFormat($date)
+{
+  if (is_null($date)) {
+    return ''; // Return empty string if date is null
+  }
+
+  return \Carbon\Carbon::parse($date)->format('jS F Y');
 }
